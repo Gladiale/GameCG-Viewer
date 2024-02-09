@@ -1,0 +1,42 @@
+.video-icons {
+  position: absolute;
+  top: 50%;
+  right: 1dvh;
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+
+  color: #ffa9ec;
+  scale: 1.5;
+
+  animation: change-opacity 1s linear;
+}
+
+@keyframes change-opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.video-icons svg {
+  cursor: pointer;
+  padding: 1px;
+  border-radius: 50%;
+
+  transition: 0.25s;
+}
+
+.video-icons svg:hover {
+  border: 1px dashed #ffa9ec;
+  scale: 1.8;
+}
+
+.video-icons svg:active {
+  color: #eb00e7;
+  border: 1px dashed #eb004e;
+}

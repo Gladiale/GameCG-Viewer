@@ -1,0 +1,230 @@
+.menuFilter {
+  position: absolute;
+  transform: translateX(20%) translateY(-52%);
+  font-size: 11px;
+  color: #ff84fb;
+  width: 130px;
+  transition: 0.5s;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9;
+}
+
+.menuFilter label:not(:last-of-type) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding-bottom: 5px;
+
+  transition: 0.5s;
+}
+
+.menuFilter label:not(:first-of-type) {
+  margin-top: 1px;
+}
+
+.menuFilter label:not(:last-of-type):hover {
+  scale: 2.2;
+  animation: hoverShake 0.15s linear 3;
+}
+
+@keyframes hoverShake {
+  0% {
+    transform: skew(0deg, 0deg);
+  }
+  25% {
+    transform: skew(1deg, 1deg);
+  }
+  75% {
+    transform: skew(-1deg, -1deg);
+  }
+  100% {
+    transform: skew(0deg, 0deg);
+  }
+}
+
+.menuFilter label span {
+  user-select: none;
+}
+
+/* https://www.webdesignleaves.com/pr/css/input-range-style.html */
+/* ベーススタイル */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  margin-left: 3px;
+
+  /* filter: drop-shadow(0 0 5px #ff00d4) drop-shadow(0 0 15px #ff00d4); */
+  filter: drop-shadow(0 0 5px #00ff80) drop-shadow(0 0 15px #00ffd0);
+}
+
+/* Track: Chrome, Safari, Opera, Edge Chromium */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(#ff63e2, #ffff8b);
+  height: 2px;
+  border-radius: 2px;
+}
+
+/* Thumb: Chrome, Safari, Opera, Edge Chromium */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  width: 6px;
+  margin-top: -2px; /* 位置の調整が必要 */
+  background-color: #ff84fb;
+  border-radius: 50%;
+}
+
+.menuFilter label:last-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 1px solid #00ff80;
+  padding: 2px;
+  gap: 5px;
+  margin-top: 1em;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menuFilter label:last-of-type:hover {
+  color: #d9ff00;
+  animation: korokoro 2.5s linear 0s 1;
+}
+
+@keyframes korokoro {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  5% {
+    transform: translate(10%, 0%) rotate(10deg);
+  }
+  25% {
+    transform: translate(20%, 0%) rotate(20deg);
+  }
+  30% {
+    transform: translate(-10%, 0%) rotate(-10deg);
+  }
+  35% {
+    transform: translate(-15%, 0%) rotate(-15deg);
+  }
+  45% {
+    transform: translate(10%, 0%) rotate(10deg);
+  }
+  50% {
+    transform: translate(15%, 0%) rotate(15deg);
+  }
+  60% {
+    transform: translate(-5%, 0%) rotate(-5deg);
+  }
+  65% {
+    transform: translate(-7%, 0%) rotate(-7deg);
+  }
+  75% {
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+}
+
+.menuFilter label input[type="checkbox"] {
+  appearance: none;
+  cursor: pointer;
+
+  width: 10px;
+  height: 10px;
+  border: 1px solid #fe62f9;
+  transition: all 0.12s, border-color 0.08s;
+
+  position: relative;
+}
+
+.menuFilter label input[type="checkbox"]:checked {
+  width: 5px;
+  top: -2.5px;
+  left: 2.5px;
+  border-radius: 0;
+  border-color: #ff00aa;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(45deg);
+}
+
+.menuFilter .filterControl {
+  display: flex;
+  gap: 5px;
+  margin-top: 1em;
+  position: relative;
+}
+
+.menuFilter .filterControl::after {
+  content: attr(data-message);
+  outline: 1px dashed #fe62f9;
+  position: absolute;
+  color: #fe62f9;
+  bottom: -100%;
+  left: 0;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.menuFilter .filterControl:has(:first-of-type:hover):after {
+  opacity: 1;
+  animation: purun 0.8s linear 0s 1;
+}
+
+@keyframes purun {
+  0% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  15% {
+    transform: scale(0.9, 0.9) translate(0%, 5%);
+  }
+  30% {
+    transform: scale(1.3, 0.8) translate(0%, 10%);
+  }
+  50% {
+    transform: scale(0.8, 1.3) translate(0%, -10%);
+  }
+  70% {
+    transform: scale(1.1, 0.9) translate(0%, 5%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+}
+
+.menuFilter .filterControl input[type="button"] {
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  background: #ff66ff;
+  color: #ffffff;
+  padding: 1px;
+  box-shadow: 3px 5px 2px #666666;
+  border: 2px solid #ff66ff;
+  transition: 0.3s;
+}
+
+.menuFilter .filterControl input[type="button"]:hover {
+  box-shadow: none;
+  color: #ff66ff;
+  background: #ffffff;
+}
+
+.menuFilter .filterControl input[type="button"]:active {
+  background-color: #8b1361;
+}
