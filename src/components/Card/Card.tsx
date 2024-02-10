@@ -64,7 +64,7 @@ const Card = ({ tiltState }: PropsType) => {
   // voiceを加えました
   const [voiceFile, setVoiceFile] = useState<string>(allInfo.voicePlayFile);
 
-  // フルスクリーン＋横モード時の画面サイズ
+  // フルスクリーンの画面サイズ
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   // videoのscale調整

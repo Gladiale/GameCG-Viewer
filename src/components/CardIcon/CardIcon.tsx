@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CardIcon.module.css";
 import {
   BsChevronRight,
@@ -11,7 +11,6 @@ import {
   GiStarSwirl,
   GiCardPlay,
   GiAbstract024,
-  // GiVortex,
   GiHeartBattery,
   GiFairyWand,
   GiNestedHearts,
@@ -60,11 +59,6 @@ type AllProps = {
   setIsPixelate: React.Dispatch<React.SetStateAction<boolean>>;
   setHasFilter: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-// 自動画像変換 (setIntervalの戻り値はここに書くのが重要です)
-// let autoChange: boolean = false;
-let autoMatic: number;
-let changeSpeed: number;
 
 const CardIcon = ({ data }: { data: AllProps }) => {
   const {
@@ -312,11 +306,7 @@ const CardIcon = ({ data }: { data: AllProps }) => {
     // swirl ? setSwirl(false) : setSwirl(true);
   };
 
-  // 横のモード、cardのwidthを72vw、heightを99vhに変更
-  // const handleWidthScreen = (e: any) => {
-  //   e.stopPropagation();
-  //   isWidthScreen ? setIsWidthScreen(false) : setIsWidthScreen(true);
-  // };
+  // 画面モードを変更
   const handleScreen = (
     e: React.MouseEvent<HTMLInputElement>,
     modeName: string
@@ -326,36 +316,36 @@ const CardIcon = ({ data }: { data: AllProps }) => {
   };
 
   // 自動画像変換
-  const [autoChange, setAutoChange] = useState<boolean>(true);
+  const [autoChange, setAutoChange] = useState<boolean>(false);
+  const [changeSpeed, setChangeSpeed] = useState<number>(40);
   const handleAutoMatic = (e: any) => {
     e.stopPropagation();
-    if (autoChange) {
-      autoMatic = setInterval(() => {
-        incrementAll(postOpacity, hasVideo);
-      }, 40);
-    } else {
-      clearInterval(autoMatic);
-    }
-    autoChange ? setAutoChange(false) : setAutoChange(true);
-    changeSpeed = 0;
+    setAutoChange((prev) => !prev);
   };
-
   const handleChangeSpeed = (e: any) => {
     e.stopPropagation();
     e.preventDefault();
-
-    if (changeSpeed < 1350) {
-      changeSpeed += 450;
+    if (changeSpeed === 40) {
+      setChangeSpeed(450);
+    } else if (changeSpeed !== 40 && changeSpeed < 1350) {
+      setChangeSpeed((prev) => (prev += 450));
     } else {
-      changeSpeed = 450;
+      setChangeSpeed(40);
     }
     // console.log(changeSpeed);
-
-    clearInterval(autoMatic);
-    autoMatic = setInterval(() => {
-      incrementAll(postOpacity, hasVideo);
-    }, changeSpeed);
   };
+  // console.log("再リンダリング");
+  useEffect(() => {
+    let intervalId: number | undefined;
+    if (autoChange) {
+      intervalId = window.setInterval(() => {
+        incrementAll(postOpacity, hasVideo);
+      }, changeSpeed);
+    }
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [autoChange, changeSpeed]);
 
   // ボイスの開きしめ
   const handleVoice = (e: any) => {
@@ -379,16 +369,18 @@ const CardIcon = ({ data }: { data: AllProps }) => {
   };
 
   // フルスクリーン(https://gray-code.com/javascript/display-the-page-in-full-screen/)
+  // コンポーネント外の操作は副作用なので、useEffectを使います
   const handleFullScreen = (e: any) => {
     e.stopPropagation();
-    if (!isFullScreen) {
-      document.body.requestFullscreen();
-      setIsFullScreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullScreen(false);
-    }
+    setIsFullScreen((prev) => !prev);
   };
+  useEffect(() => {
+    if (document.fullscreenElement === null && isFullScreen) {
+      document.body.requestFullscreen();
+    } else if (document.fullscreenElement !== null) {
+      document.exitFullscreen();
+    }
+  }, [isFullScreen]);
 
   // ミラー効果
   const handleMirrorEffect = (e: any) => {
@@ -425,7 +417,7 @@ const CardIcon = ({ data }: { data: AllProps }) => {
       >
         <GiEclipseFlare onClick={handleFullScreen} />
 
-        {!autoChange ? (
+        {autoChange ? (
           <div className={styles["autoMatic-box"]}>
             <GiHeartBattery
               onClick={handleAutoMatic}
@@ -491,7 +483,6 @@ const CardIcon = ({ data }: { data: AllProps }) => {
             }
           />
         )}
-        {/* <GiVortex onClick={handleWidthScreen} /> */}
 
         <GiStarSwirl onClick={handleSwirl} />
 
