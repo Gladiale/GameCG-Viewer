@@ -151,20 +151,20 @@ const Card = ({ tiltState }: PropsType) => {
     const postIndex: number = postFileList.indexOf(allInfo.postImgFile);
     if (postIndex < postFileList.length - 1) {
       allInfo.postImgFile = postFileList[postIndex + 1];
-      setPostFile(allInfo.postImgFile);
+      setPostFile(String(postIndex + 2).padStart(3, "0"));
     } else {
       allInfo.postImgFile = postFileList[0];
-      setPostFile(allInfo.postImgFile);
+      setPostFile("001");
     }
 
     const videoFileList: string[] = getVideoList(allInfo.videoFolder);
     const videoIndex: number = videoFileList.indexOf(allInfo.videoPlayFile);
     if (videoIndex < videoFileList.length - 1) {
       allInfo.videoPlayFile = videoFileList[videoIndex + 1];
-      setVideoFile(allInfo.videoPlayFile);
+      setVideoFile(String(videoIndex + 2).padStart(3, "0"));
     } else {
       allInfo.videoPlayFile = videoFileList[0];
-      setVideoFile(allInfo.videoPlayFile);
+      setVideoFile("001");
     }
   };
 
@@ -175,21 +175,24 @@ const Card = ({ tiltState }: PropsType) => {
       getRandomInt(Number(allInfo.maxPostFolder)) + 1
     ).padStart(2, "0");
     const postFileList: string[] = getPostList(allInfo.postFolder);
-    allInfo.postImgFile = postFileList[getRandomInt(postFileList.length)];
+    const postRandomNum = getRandomInt(postFileList.length);
+    allInfo.postImgFile = postFileList[postRandomNum];
 
     // ランダムな立ち絵を取得
     allInfo.standFolder = String(
       getRandomInt(Number(allInfo.maxStandFolder)) + 1
     ).padStart(2, "0");
     const standFileList: string[] = getStandList(allInfo.standFolder);
-    allInfo.standImgFile = standFileList[getRandomInt(standFileList.length)];
+    const standRandomNum = getRandomInt(standFileList.length);
+    allInfo.standImgFile = standFileList[standRandomNum];
 
     // ランダムなフォルダと動画を取得
     allInfo.videoFolder = String(
       getRandomInt(Number(allInfo.maxVideoFolder)) + 1
     ).padStart(2, "0");
     const videoFileList: string[] = getVideoList(allInfo.videoFolder);
-    allInfo.videoPlayFile = videoFileList[getRandomInt(videoFileList.length)];
+    const videoRandomNum = getRandomInt(videoFileList.length);
+    allInfo.videoPlayFile = videoFileList[videoRandomNum];
 
     // ランダムなボイスを取得
     // const voiceFileList: string[] = getVoiceList();
@@ -206,9 +209,9 @@ const Card = ({ tiltState }: PropsType) => {
     setDisplay(false);
     setPostOpacity(true);
 
-    setPostFile(allInfo.postImgFile);
-    setStandFile(allInfo.postImgFile);
-    setVideoFile(allInfo.videoPlayFile);
+    setPostFile(String(postRandomNum + 1).padStart(3, "0"));
+    setStandFile(String(standRandomNum + 1).padStart(3, "0"));
+    setVideoFile(String(videoRandomNum + 1).padStart(3, "0"));
   };
 
   // 画像のマウス操作

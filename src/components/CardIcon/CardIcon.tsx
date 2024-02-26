@@ -111,13 +111,13 @@ const CardIcon = ({ data }: { data: AllProps }) => {
         setStandImgURL(
           `url('/stand-image/folder-${allInfo.standFolder}/${allInfo.standImgFile}')`
         );
-        setStandFile(allInfo.standImgFile);
+        setStandFile(String(standIndex + 2).padStart(3, "0"));
       } else {
         allInfo.standImgFile = standFileList[0];
         setStandImgURL(
           `url('/stand-image/folder-${allInfo.standFolder}/${allInfo.standImgFile}')`
         );
-        setStandFile(allInfo.standImgFile);
+        setStandFile("001");
       }
     } else if (!hasVideo) {
       // インクリメント (画像)
@@ -128,13 +128,13 @@ const CardIcon = ({ data }: { data: AllProps }) => {
         setPostImgURL(
           `url('/post-image/folder-${allInfo.postFolder}/${allInfo.postImgFile}')`
         );
-        setPostFile(allInfo.postImgFile);
+        setPostFile(String(postIndex + 2).padStart(3, "0"));
       } else {
         allInfo.postImgFile = postFileList[0];
         setPostImgURL(
           `url('/post-image/folder-${allInfo.postFolder}/${allInfo.postImgFile}')`
         );
-        setPostFile(allInfo.postImgFile);
+        setPostFile("001");
       }
     } else {
       // インクリメント (動画)
@@ -145,13 +145,13 @@ const CardIcon = ({ data }: { data: AllProps }) => {
         setVideoURL(
           `/video/folder-${allInfo.videoFolder}/${allInfo.videoPlayFile}`
         );
-        setVideoFile(allInfo.videoPlayFile);
+        setVideoFile(String(videoIndex + 2).padStart(3, "0"));
       } else {
         allInfo.videoPlayFile = videoFileList[0];
         setVideoURL(
           `/video/folder-${allInfo.videoFolder}/${allInfo.videoPlayFile}`
         );
-        setVideoFile(allInfo.videoPlayFile);
+        setVideoFile("001");
       }
     }
   }
@@ -173,14 +173,14 @@ const CardIcon = ({ data }: { data: AllProps }) => {
           setStandImgURL(
             `url('/stand-image/folder-${allInfo.standFolder}/${allInfo.standImgFile}')`
           );
-          setStandFile(allInfo.standImgFile);
+          setStandFile(String(standFileList.length).padStart(3, "0"));
           break;
         default:
           allInfo.standImgFile = standFileList[standIndex - 1];
           setStandImgURL(
             `url('/stand-image/folder-${allInfo.standFolder}/${allInfo.standImgFile}')`
           );
-          setStandFile(allInfo.standImgFile);
+          setStandFile(String(standIndex).padStart(3, "0"));
       }
     } else if (!hasVideo) {
       // デクリメント (画像)
@@ -192,14 +192,14 @@ const CardIcon = ({ data }: { data: AllProps }) => {
           setPostImgURL(
             `url('/post-image/folder-${allInfo.postFolder}/${allInfo.postImgFile}')`
           );
-          setPostFile(allInfo.postImgFile);
+          setPostFile(String(postFileList.length).padStart(3, "0"));
           break;
         default:
           allInfo.postImgFile = postFileList[postIndex - 1];
           setPostImgURL(
             `url('/post-image/folder-${allInfo.postFolder}/${allInfo.postImgFile}')`
           );
-          setPostFile(allInfo.postImgFile);
+          setPostFile(String(postIndex).padStart(3, "0"));
       }
     } else {
       // デクリメント (動画)
@@ -211,14 +211,14 @@ const CardIcon = ({ data }: { data: AllProps }) => {
           setVideoURL(
             `/video/folder-${allInfo.videoFolder}/${allInfo.videoPlayFile}`
           );
-          setVideoFile(allInfo.videoPlayFile);
+          setVideoFile(String(videoFileList.length).padStart(3, "0"));
           break;
         default:
           allInfo.videoPlayFile = videoFileList[videoIndex - 1];
           setVideoURL(
             `/video/folder-${allInfo.videoFolder}/${allInfo.videoPlayFile}`
           );
-          setVideoFile(allInfo.videoPlayFile);
+          setVideoFile(String(videoIndex).padStart(3, "0"));
       }
     }
   };
@@ -233,7 +233,7 @@ const CardIcon = ({ data }: { data: AllProps }) => {
       setStandImgURL(
         `url('/stand-image/folder-${allInfo.standFolder}/${standImageName}')`
       );
-      setStandFile(standImageName);
+      setStandFile("001");
       allInfo.standImgFile = standImageName;
     } else if (!hasVideo) {
       // (CG画像)
@@ -241,13 +241,13 @@ const CardIcon = ({ data }: { data: AllProps }) => {
       setPostImgURL(
         `url('/post-image/folder-${allInfo.postFolder}/${pictureName}')`
       );
-      setPostFile(pictureName);
+      setPostFile("001");
       allInfo.postImgFile = pictureName;
     } else {
       // (動画)
       const videoName: string = getVideoList(allInfo.videoFolder)[0];
       setVideoURL(`/video/folder-${allInfo.videoFolder}/${videoName}`);
-      setVideoFile(videoName);
+      setVideoFile("001");
       allInfo.videoPlayFile = videoName;
     }
   };
@@ -258,27 +258,28 @@ const CardIcon = ({ data }: { data: AllProps }) => {
 
     if (!postOpacity) {
       // (立ち絵)
-      const standImageName: string = getStandList(allInfo.standFolder).slice(
-        -1
-      )[0];
+      const standList: string[] = getStandList(allInfo.standFolder);
+      const standImageName: string = standList.slice(-1)[0];
       setStandImgURL(
         `url('/stand-image/folder-${allInfo.standFolder}/${standImageName}')`
       );
-      setStandFile(standImageName);
+      setStandFile(String(standList.length).padStart(3, "0"));
       allInfo.standImgFile = standImageName;
     } else if (!hasVideo) {
       // (CG画像)
-      const pictureName: string = getPostList(allInfo.postFolder).slice(-1)[0];
+      const postList: string[] = getPostList(allInfo.postFolder);
+      const pictureName: string = postList.slice(-1)[0];
       setPostImgURL(
         `url('/post-image/folder-${allInfo.postFolder}/${pictureName}')`
       );
-      setPostFile(pictureName);
+      setPostFile(String(postList.length).padStart(3, "0"));
       allInfo.postImgFile = pictureName;
     } else {
       // (動画)
-      const videoName: string = getVideoList(allInfo.videoFolder).slice(-1)[0];
+      const videoList: string[] = getVideoList(allInfo.videoFolder);
+      const videoName: string = videoList.slice(-1)[0];
       setVideoURL(`/video/folder-${allInfo.videoFolder}/${videoName}`);
-      setVideoFile(videoName);
+      setVideoFile(String(videoList.length).padStart(3, "0"));
       allInfo.videoPlayFile = videoName;
     }
   };
@@ -334,16 +335,19 @@ const CardIcon = ({ data }: { data: AllProps }) => {
     }
     // console.log(changeSpeed);
   };
-  // console.log("再リンダリング");
   useEffect(() => {
+    // console.log("init");
     let intervalId: number | undefined;
     if (autoChange) {
+      // console.log("time start");
       intervalId = window.setInterval(() => {
+        // console.log("interval running");
         incrementAll(postOpacity, hasVideo);
       }, changeSpeed);
     }
     return () => {
       window.clearInterval(intervalId);
+      // console.log("end");
     };
   }, [autoChange, changeSpeed]);
 
