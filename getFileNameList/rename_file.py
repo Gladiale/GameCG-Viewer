@@ -1,7 +1,7 @@
 import os
 
 # リネームしたいフォルダを指定
-_dir = r'E:\HTML\@自作サービス\GameCG-Viewer\public\post-image\folder-03'
+_dir = r'E:\HTML\@自作サービス\GameCG-Viewer\public\effect'
 
 def renameFiles(folder_path):
     files = os.listdir(folder_path)
@@ -21,5 +21,5 @@ def renameFiles(folder_path):
 
     print(file_list)
 
-if __name__ == '__main__':
-    renameFiles(_dir)
+# if __name__ == '__main__':
+#     renameFiles(_dir)
