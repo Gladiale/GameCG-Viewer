@@ -57,7 +57,7 @@
   opacity: 1;
 }
 
-.icons .iconSetTop .toggleVoice {
+.icons .iconSetTop .voice-box .toggleVoice {
   animation: change-color 1s linear infinite alternate;
 }
 @keyframes change-color {
@@ -92,6 +92,37 @@
   opacity: 0.9;
   width: 450px;
   filter: drop-shadow(0 0 5px #5cff95) drop-shadow(0 0 15px #ff34dd);
+}
+
+.icons .iconSetTop .CG-Effect {
+  position: relative;
+  display: flex;
+}
+
+.icons .iconSetTop .CG-Effect .checkEffect {
+  position: absolute;
+  display: flex;
+
+  opacity: 0.8;
+  transition: all 0.5s;
+  white-space: nowrap;
+  scale: 0;
+  z-index: 10;
+}
+
+.icons .iconSetTop .CG-Effect:hover .checkEffect {
+  scale: 1;
+}
+
+.icons .iconSetTop .CG-Effect .checkEffect div {
+  border: 1px dashed #9e00ba;
+  padding: 1px 3px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.icons .iconSetTop .CG-Effect .checkEffect div.active {
+  background: #d000f0;
 }
 
 .icons .iconSetBottom {

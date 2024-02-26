@@ -82,6 +82,16 @@ const Card = ({ tiltState }: PropsType) => {
   // FilterEffect
   const filterState = useFilter().state;
 
+  // CG-Effect(backgroundImageに二つの画像を設定することで、画像に更に画像を被せることを実現)
+  const [hasCgEffect, setHasCgEffect] = useState<boolean>(false);
+  // 被せる画像
+  const [effectURL, setEffectURL] = useState<string>(
+    `url('/effect/${allInfo.effectImgFile}')`
+  );
+
+  // 被せる画像の位置
+  const [effectPosition, setEffectPosition] = useState<string>("center");
+
   // Cardにマウスの右クリック
   const handleRightClickStyle = (e: any) => {
     e.preventDefault();
@@ -326,7 +336,10 @@ const Card = ({ tiltState }: PropsType) => {
             : undefined
         } ${swirl ? styles["to_back"] : styles["to_front"]}`}
         style={{
-          backgroundImage: `${postImgURL}`,
+          backgroundImage: hasCgEffect
+            ? `${effectURL}, ${postImgURL}`
+            : postImgURL,
+          backgroundPosition: effectPosition,
           opacity: postOpacity ? 1 : 0,
           scale:
             rotateList.includes(rotate) && postOpacity && isPictureMode
@@ -421,6 +434,12 @@ const Card = ({ tiltState }: PropsType) => {
           isPixelate,
           setIsPixelate,
           setHasFilter,
+
+          hasCgEffect,
+          effectPosition,
+          setHasCgEffect,
+          setEffectURL,
+          setEffectPosition,
         }}
       />
     </div>

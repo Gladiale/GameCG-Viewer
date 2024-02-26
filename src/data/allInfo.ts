@@ -11,6 +11,7 @@ type InfoType = {
   standImgFile: string;
   videoPlayFile: string;
   voicePlayFile: string;
+  effectImgFile: string;
 };
 
 const allInfo: InfoType = {
@@ -26,6 +27,7 @@ const allInfo: InfoType = {
   standImgFile: "001.png",
   videoPlayFile: "001.mkv",
   voicePlayFile: "001.mp3",
+  effectImgFile: "001.png",
 };
 
 type FilterType = {

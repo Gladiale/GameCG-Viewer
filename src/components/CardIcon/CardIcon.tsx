@@ -3,8 +3,8 @@ import styles from "./CardIcon.module.css";
 import {
   BsChevronRight,
   BsChevronLeft,
-  // BsArrowThroughHeart,
-  // BsArrowThroughHeartFill,
+  BsArrowThroughHeart,
+  BsArrowThroughHeartFill,
 } from "react-icons/bs";
 import { MdOutlineDoNotTouch } from "react-icons/md";
 import {
@@ -29,6 +29,7 @@ import {
 } from "../../data/getFileList";
 import CardFilter from "../CardFilter/CardFilter";
 import { useScreenDispatch, useScreenState } from "../../context/ScreenContext";
+import { getEffectImgList } from "../../data/getEffectImgList";
 
 type AllProps = {
   allInfo: InfoType;
@@ -58,6 +59,12 @@ type AllProps = {
   isPixelate: boolean;
   setIsPixelate: React.Dispatch<React.SetStateAction<boolean>>;
   setHasFilter: React.Dispatch<React.SetStateAction<boolean>>;
+
+  hasCgEffect: boolean;
+  effectPosition: string;
+  setHasCgEffect: React.Dispatch<React.SetStateAction<boolean>>;
+  setEffectURL: React.Dispatch<React.SetStateAction<string>>;
+  setEffectPosition: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const CardIcon = ({ data }: { data: AllProps }) => {
@@ -89,6 +96,12 @@ const CardIcon = ({ data }: { data: AllProps }) => {
     isPixelate,
     setIsPixelate,
     setHasFilter,
+
+    hasCgEffect,
+    effectPosition,
+    setHasCgEffect,
+    setEffectURL,
+    setEffectPosition,
   } = data;
 
   const { screenState } = useScreenState();
@@ -392,6 +405,36 @@ const CardIcon = ({ data }: { data: AllProps }) => {
     setHasMirrorEffect((prev) => !prev);
   };
 
+  // CG-Effect
+  const handleCgEffect = (e: any) => {
+    e.stopPropagation();
+    if (hasCgEffect) {
+      setEffectPosition("center");
+    }
+    setHasCgEffect((prev) => !prev);
+  };
+
+  // CG-Effect 画像変更
+  const rightClickCgEffect = (e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    // Effect画像のインクリメント
+    const effectImgList: string[] = getEffectImgList();
+    const effectIndex = effectImgList.indexOf(allInfo.effectImgFile);
+    if (effectIndex < effectImgList.length - 1) {
+      allInfo.effectImgFile = effectImgList[effectIndex + 1];
+    } else {
+      allInfo.effectImgFile = effectImgList[0];
+    }
+    setEffectURL(`url('/effect/${allInfo.effectImgFile}')`);
+  };
+
+  // CG-Effect position変更
+  const handleEffectPosition = (e: any, parameter: string) => {
+    e.stopPropagation();
+    setEffectPosition(parameter);
+  };
+
   return (
     <div
       className={styles.icons}
@@ -456,6 +499,54 @@ const CardIcon = ({ data }: { data: AllProps }) => {
           </div>
         ) : (
           <GiNestedHearts onClick={handleVoice} />
+        )}
+
+        {hasCgEffect ? (
+          <div className={styles["CG-Effect"]}>
+            <BsArrowThroughHeartFill
+              onClick={handleCgEffect}
+              onContextMenu={rightClickCgEffect}
+            />
+            <div
+              className={styles.checkEffect}
+              style={{
+                transform: screenState.cgMode
+                  ? "translateY(-20%) translateX(-110%)"
+                  : "translateY(-20%) translateX(25%)",
+              }}
+            >
+              <div
+                className={
+                  effectPosition == "left top, center"
+                    ? styles.active
+                    : undefined
+                }
+                onClick={(e) => handleEffectPosition(e, "left top, center")}
+              >
+                左上
+              </div>
+              <div
+                className={
+                  effectPosition == "center" ? styles.active : undefined
+                }
+                onClick={(e) => handleEffectPosition(e, "center")}
+              >
+                中央
+              </div>
+              <div
+                className={
+                  effectPosition == "right bottom, center"
+                    ? styles.active
+                    : undefined
+                }
+                onClick={(e) => handleEffectPosition(e, "right bottom, center")}
+              >
+                右下
+              </div>
+            </div>
+          </div>
+        ) : (
+          <BsArrowThroughHeart onClick={handleCgEffect} />
         )}
       </div>
 

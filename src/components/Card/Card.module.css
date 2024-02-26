@@ -113,7 +113,7 @@
   inset: 0;
   transition: 0.25s;
   background-repeat: no-repeat;
-  background-position: center;
+  /* background-position: center; */
   background-size: contain;
   cursor: crosshair;
 }
