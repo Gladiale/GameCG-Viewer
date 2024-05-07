@@ -28,21 +28,21 @@ type ContextDispatchType = {
 const ScreenContext = createContext({} as ContextType);
 const ScreenDispatchContext = createContext({} as ContextDispatchType);
 
-const ScreenProvider = ({ children }: { children: React.ReactNode }) => {
-  // ここのtypeは分割代入の値
-  const screenReducer = (state: ScreenModeType, { type }: { type: string }) => {
-    switch (type) {
-      case "cardMode":
-        return { ...state, cardMode: false, mangaMode: true };
-      case "mangaMode":
-        return { ...state, mangaMode: false, cgMode: true };
-      case "cgMode":
-        return { ...state, cgMode: false, cardMode: true };
-      default:
-        throw new Error("不明なアクションです");
-    }
-  };
+// ここのtypeは分割代入の値
+function screenReducer(state: ScreenModeType, { type }: { type: string }) {
+  switch (type) {
+    case "cardMode":
+      return { ...state, cardMode: false, mangaMode: true };
+    case "mangaMode":
+      return { ...state, mangaMode: false, cgMode: true };
+    case "cgMode":
+      return { ...state, cgMode: false, cardMode: true };
+    default:
+      throw new Error("不明なアクションです");
+  }
+}
 
+const ScreenProvider = ({ children }: { children: React.ReactNode }) => {
   const [screenState, screenDispatch] = useReducer(screenReducer, screenMode);
 
   return (

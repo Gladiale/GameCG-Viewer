@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { FilterType, allFilter } from "../data/allInfo";
+import { allFilter, type FilterType } from "../data/allInfo";
 
 /* 参考サイト
 https://qiita.com/Rascal823/items/0f53ffbb410505b707f8
@@ -9,51 +9,44 @@ https://juejin.cn/post/7088242996004519967
 
 type ContextType = {
   state: FilterType;
-  dispatch: React.Dispatch<{
-    type: string;
-    payload: { effectData: number; allEffect?: FilterType };
-  }>;
+  dispatch: React.Dispatch<FilterActionType>;
 };
+
+type FilterActionType = {
+  type: string;
+  payload: { effectData: number; allEffect?: FilterType };
+};
+
+const initialState = allFilter;
+function reducer(state: FilterType, action: FilterActionType) {
+  switch (action.type) {
+    case "brightness":
+      return { ...state, brightness: action.payload.effectData };
+    case "contrast":
+      return { ...state, contrast: action.payload.effectData };
+    case "grayscale":
+      return { ...state, grayscale: action.payload.effectData };
+    case "hueRotate":
+      return { ...state, hueRotate: action.payload.effectData };
+    case "invert":
+      return { ...state, invert: action.payload.effectData };
+    case "saturate":
+      return { ...state, saturate: action.payload.effectData };
+    case "sepia":
+      return { ...state, sepia: action.payload.effectData };
+    case "apply":
+      return { ...state, ...action.payload.allEffect };
+    case "reset":
+      return initialState;
+    default:
+      throw new Error("不明なactionです");
+  }
+}
 
 const FilterContext = createContext({} as ContextType);
 
 const FilterProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(
-    (
-      prev: FilterType,
-      {
-        type,
-        payload,
-      }: {
-        type: string;
-        payload: { effectData: number; allEffect?: FilterType };
-      }
-    ) => {
-      switch (type) {
-        case "brightness":
-          return { ...prev, brightness: payload.effectData };
-        case "contrast":
-          return { ...prev, contrast: payload.effectData };
-        case "grayscale":
-          return { ...prev, grayscale: payload.effectData };
-        case "hueRotate":
-          return { ...prev, hueRotate: payload.effectData };
-        case "invert":
-          return { ...prev, invert: payload.effectData };
-        case "saturate":
-          return { ...prev, saturate: payload.effectData };
-        case "sepia":
-          return { ...prev, sepia: payload.effectData };
-        case "apply":
-          return { ...prev, ...payload.allEffect };
-        case "reset":
-          return { ...allFilter };
-        default:
-          throw new Error("不明なactionです");
-      }
-    },
-    allFilter
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <FilterContext.Provider value={{ state, dispatch }}>
